@@ -1,0 +1,261 @@
+{% extends 'layout.html.twig' %}
+{% block body %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Nom Event</th>
+            <th scope="col">Description</th>
+            <th scope="col">Location</th>
+            <th scope="col">Type</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        {% for event in events %}
+            <tr id="{{ event.id }}" >
+                <td id="nom_{{ event.id }}">{{ event.nom }}</td>
+                <td id="description_{{ event.id }}">{{ event.description }}</td>
+                <td id="location_{{ event.id }}">{{ event.location }}</td>
+                <td id="type_{{ event.id }}">{{ event.type.libelle }}</td>
+                <td>
+                    <a onclick="updateEvent({{ event.id }})" class="button tiny alert updateEvent"   href="#" ><i class="far fa-edit"></i></a>
+                    <a  class="button tiny alert deleteEvent"  id="{{ event.id }}"  href="#" ><i class="fa fa-trash"></i></a>
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="#" id="modalEventt"><i class="fas fa-plus"></i></a>
+
+
+    <div class="modal fade modalEvent" tabindex="-1" role="dialog" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                {{ form_start(form, { 'attr' : { 'class': 'form_add_event' } }) }}
+                <div class="modal-body">
+                    <div class="form-group">
+
+                        {{ form_label(form.nom) }}
+                        {{ form_errors(form.nom) }}
+                        {{ form_widget(form.nom, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.description) }}
+                        {{ form_errors(form.description) }}
+                        {{ form_widget(form.description, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.location) }}
+                        {{ form_errors(form.location) }}
+                        {{ form_widget(form.location, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.type) }}
+                        {{ form_errors(form.type) }}
+                        {{ form_widget(form.type, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="addEvent" class="btn btn-primary">send</button>
+                </div>
+                {{ form_end(form) }}
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal" id="deleteEvent" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Voulez vous suppriver cet event</p>
+                    <input type="hidden" value="" id="id_event">
+                </div>
+                <div class="modal-footer">
+                    <button type="button " class="btn btn-primary dltEvent">delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modalEvent" tabindex="-1" role="dialog" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                {{ form_start(form, { 'attr' : { 'class': 'form_add_event' } }) }}
+                <div class="modal-body">
+                    <div class="form-group">
+
+                        {{ form_label(form.nom) }}
+                        {{ form_errors(form.nom) }}
+                        {{ form_widget(form.nom, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.description) }}
+                        {{ form_errors(form.description) }}
+                        {{ form_widget(form.description, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.location) }}
+                        {{ form_errors(form.location) }}
+                        {{ form_widget(form.location, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.type) }}
+                        {{ form_errors(form.type) }}
+                        {{ form_widget(form.type, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="addEvent" class="btn btn-primary">send</button>
+                </div>
+                {{ form_end(form) }}
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+<div id="lunchModalUpdate"></div>
+
+
+
+    <script>
+
+    $( document ).ready(function() {
+
+        $("#modalEvent").click(function() {
+            $('.modalEvent').modal('show');
+        });
+
+        $('body').on('click','#addEvent',function(){
+            addEvent();
+        });
+
+        $('body').on('click','#updateEvent',function(){
+            update_Event();
+        });
+
+        $('body').on('click','.deleteEvent',function(){
+            var idEvent=$(this).attr('id');
+            $('#id_event').val(idEvent);
+            $('#deleteEvent').modal('show');
+        });
+
+        $('body').on('click','.dltEvent',function(){
+            var idEvent=$('#id_event').val();
+            $.ajax({
+                type: "post",
+                url: "{{ path('todo_list_delete_event') }} ",
+                data: {
+                    idEvent:idEvent,
+                },
+                success: function (data) {
+                    if (data.isDeleted === true) {
+
+                        var tr =$('#tbody ').find("tr#"+idEvent);
+                        tr.css("background-color", "#FF3700");
+                        tr.fadeOut(1000, function () {
+                            tr.remove();
+                        });
+                        $('#deleteEvent').modal('hide');
+                        return false;
+                    }
+                }
+            })
+        });
+    });
+
+
+    function addEvent(){
+        var formData = new FormData($('.form_add_event')[0]);
+        $.ajax({
+            url:"{{ path('todo_list_show')}}",
+            type:"POST",
+            data:formData,
+            dataType:'json',
+            contentType: false,
+            processData: false,
+            beforeSend: function() {
+
+            },
+            success: function (data){
+
+                var tbody= $("#tbody");
+                var ligne ='<tr id="'+data.id+'">';
+                ligne+='<td id="nom_'+data.id+'">'+data.nom+'</td>';
+                ligne+='<td id="description_'+data.id+'">'+data.description+'</td>';
+                ligne+='<td id="location_'+data.id+'">'+data.location+'</td>';
+                ligne+='<td id="type_'+data.id+'">'+data.type+'</td>';
+                ligne+='<td> <a onclick="updateEvent('+data.id+')" class="button tiny alert updateEvent"   href="#" ><i class="far fa-edit"></i></a><a  class="button tiny alert deleteEvent"  id="'+data.id+'"  href="#" ><i class="fa fa-trash"></i></a></td>';
+                ligne+='</tr>';
+
+                tbody.append(ligne);
+
+                $('.modalEvent').modal('hide');
+            }
+        });
+    }
+
+    function updateEvent(id){
+        $.ajax({
+            url:"{{path('todo_list_update')}}",
+            type:"POST",
+            data:{idEvent:id},
+            dataType: 'html',
+            success: function (data) {
+
+                $('#lunchModalUpdate').html(data);
+                $('.modalUpdateEvent').modal('show');
+                $('#idEvent').val(id);
+
+
+            }
+        });
+    }
+
+
+    function update_Event(){
+        var idEvent=$('#idEvent').val();
+
+        var formData = new FormData($('.form_update_event')[0]);
+        formData.append('idEvent',idEvent);
+
+
+
+        $.ajax({
+            url:"{{path('todo_list_updateEvent')}}",
+            type:"POST",
+            data:formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function (data) {
+
+                $("#nom_"+idEvent).html(data.nom);
+                $("#description_"+idEvent).html(data.description);
+                $("#location_"+idEvent).html(data.location);
+                $("#type_"+idEvent).html(data.type);
+
+                $('.modalUpdateEvent').modal('hide');
+
+            }
+        });
+    }
+</script>
+
+{% endblock %}
