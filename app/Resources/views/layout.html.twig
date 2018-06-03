@@ -1,0 +1,31 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Test Application{% endblock %}</title>
+    {% block stylesheets %}
+        <script
+                src="https://code.jquery.com/jquery-2.2.4.min.js"
+                integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+                crossorigin="anonymous">
+        </script>
+
+        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+    {% endblock %}
+</head>
+<body>
+
+
+   <div  class="container">
+     {% block body %}
+
+     {% endblock %}
+   </div>
+
+{% block javascripts %}
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+{% endblock %}
+</body>
+</html>

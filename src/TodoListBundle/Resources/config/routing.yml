@@ -1,0 +1,22 @@
+todo_list_homepage:
+    path:     /
+    defaults: { _controller: TodoListBundle:Default:index }
+
+todo_list_show:
+    path:     /addevent
+    defaults: { _controller: TodoListBundle:Default:addEvent }
+
+todo_list_update:
+    path:     /updateevent
+    defaults: { _controller: TodoListBundle:Default:updateEvent }
+
+todo_list_updateEvent:
+    path:     /update_event
+    defaults: { _controller: TodoListBundle:Default:update_Event }
+
+todo_list_delete_event:
+    path:     /delete_event
+    defaults: { _controller: TodoListBundle:Default:deleteEvent }
+
+
+
