@@ -28,47 +28,10 @@
         </tbody>
     </table>
 
-    <a href="#" id="modalEventt"><i class="fas fa-plus"></i></a>
+    <a href="#" id="modalAddEvent"><i class="fas fa-plus"></i></a>
 
 
-    <div class="modal fade modalEvent" tabindex="-1" role="dialog" >
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Modal title</h4>
-                </div>
-                {{ form_start(form, { 'attr' : { 'class': 'form_add_event' } }) }}
-                <div class="modal-body">
-                    <div class="form-group">
 
-                        {{ form_label(form.nom) }}
-                        {{ form_errors(form.nom) }}
-                        {{ form_widget(form.nom, { 'attr': {'class': 'form-control'} }) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.description) }}
-                        {{ form_errors(form.description) }}
-                        {{ form_widget(form.description, { 'attr': {'class': 'form-control'} }) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.location) }}
-                        {{ form_errors(form.location) }}
-                        {{ form_widget(form.location, { 'attr': {'class': 'form-control'} }) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.type) }}
-                        {{ form_errors(form.type) }}
-                        {{ form_widget(form.type, { 'attr': {'class': 'form-control'} }) }}
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="addEvent" class="btn btn-primary">send</button>
-                </div>
-                {{ form_end(form) }}
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 
     <div class="modal" id="deleteEvent" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -138,7 +101,7 @@
 
     $( document ).ready(function() {
 
-        $("#modalEvent").click(function() {
+        $("#modalAddEvent").click(function() {
             $('.modalEvent').modal('show');
         });
 
